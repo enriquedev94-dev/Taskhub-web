@@ -1,32 +1,53 @@
 "use client"
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+
+import { authService } from "@/services/auth.service";
+
 
 export function LoginForm() {
+
+    const [email, setEmail] = React.useState("");
+    const [password, setPassword] = React.useState("");
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+        try {
+            await authService.login(email, password);
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
     return (
-        <form className="space-y-4">
-            <div>
-                <label>Email</label>
+        <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="space-y-2">
+                <Label htmlFor="email">Email</Label>
 
-                <input
+                <Input
+                    id="email"
                     type="email"
-                    className="border rounded w-full p-2"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
 
-            <div>
-                <label>Password</label>
+            <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
 
-                <input
+                <Input
+                    id="password"
                     type="password"
-                    className="border rounded w-full p-2"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                 />
             </div>
 
-            <button
-                type="submit"
-                className="rounded bg-black px-4 py-2 text-white"
-            >
+            <Button type="submit" className="w-full">
                 Login
-            </button>
+            </Button>
         </form>
     );
 }
