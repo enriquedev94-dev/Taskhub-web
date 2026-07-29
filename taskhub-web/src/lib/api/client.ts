@@ -1,7 +1,8 @@
 import { API_URL } from "./config";
+import { cookies } from "next/headers";
 
 type RequestOptions = RequestInit & {
-  params?: Record<string, string |number>;
+  params?: Record<string, string | number>;
 };
 
 class ApiClient {
@@ -26,10 +27,16 @@ class ApiClient {
   ): Promise<T> {
     const { params, headers, ...init } = options;
 
+    const cookieStore = await cookies();
+    const token = cookieStore.get("access_token")?.value;
+
     const response = await fetch(this.buildUrl(path, params), {
       ...init,
       headers: {
         "Content-Type": "application/json",
+        ...(token && {
+          Authorization: `Bearer ${token}`,
+        }),
         ...headers,
       },
     });
