@@ -22,11 +22,13 @@ export function CreateProjectButton() {
             open={open}
             onOpenChange={setOpen}
         >
-            <DialogTrigger render={<Button variant="outline" />}>
-                <Button>
-                    Create Project
-                </Button>
-            </DialogTrigger>
+            <DialogTrigger
+                render={
+                    <Button variant="outline">
+                        New Project
+                    </Button>
+                }
+            />
 
             <DialogContent>
                 <DialogHeader>

@@ -42,8 +42,14 @@ class ApiClient {
     });
 
     if (!response.ok) {
+      const error = await response.text();
+
+      console.log("FAILED URL:", this.buildUrl(path, params));
+      console.log("FAILED STATUS:", response.status);
+      console.log("API ERROR:", error);
+
       throw new Error(
-        `Request failed (${response.status}): ${response.statusText}`
+        `Request failed (${response.status}): ${error}`
       );
     }
 
