@@ -1,5 +1,6 @@
 import { projectService } from "@/services/project.service";
 import { ProjectCard } from "@/components/projects/project-card";
+import { CreateProjectButton } from "@/components/projects/create-project-button";
 
 export default async function ProjectsPage() {
     const projects = await projectService.getProjects();
@@ -9,7 +10,7 @@ export default async function ProjectsPage() {
             <h1 className="text-3xl font-bold">
                 Projects
             </h1>
-
+            <CreateProjectButton />
             <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
                 {projects.map((project) => (
                     <ProjectCard
