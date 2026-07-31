@@ -4,5 +4,6 @@ export type FormState = {
   errors?: {
     name?: string[];
     description?: string[];
+    title?: string[];
   };
 };

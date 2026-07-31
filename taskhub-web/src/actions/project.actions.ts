@@ -3,7 +3,6 @@ import type { FormState } from "@/types/form";
 import { createProjectSchema } from "@/schemas/project.schema";
 import { revalidatePath } from "next/cache";
 import { projectService } from "@/services/project.service";
-import { z } from "zod";
 
 export async function createProjectAction(prevState: FormState, formData: FormData): Promise<FormState> {
     const name = formData.get("name") as string;

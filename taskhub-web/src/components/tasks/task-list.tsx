@@ -2,6 +2,17 @@ import { apiClient } from "@/lib/api/client";
 
 type TaskListProps = {
   projectId: string;
+  search?: string;
+  status?: string;
+  page: number;
+};
+
+type PaginatedResponse<T> = {
+  items: T[];
+  page: number;
+  pageSize: number;
+  totalItems: number;
+  totalPages: number;
 };
 
 type Task = {
@@ -10,15 +21,24 @@ type Task = {
   description?: string;
   status: string;
 };
-
 export async function TaskList({
   projectId,
+  search,
+  status,
+  page
 }: TaskListProps) {
-  const tasks = await apiClient.get<Task[]>(
-    `/projects/${projectId}/tasks`
+  const tasks = await apiClient.get<PaginatedResponse<Task>>(
+    `/projects/${projectId}/tasks`,
+    {
+      params: {
+        ...(search && { search }),
+        ...(status && { status }),
+        page
+      }
+    }
   );
-
-  if (!tasks.length) {
+  console.log(1,tasks)
+  if (!tasks.items.length) {
     return (
       <div>
         No tasks found.
@@ -28,7 +48,7 @@ export async function TaskList({
 
   return (
     <div className="space-y-4">
-      {tasks.map((task) => (
+      {tasks.items.map((task) => (
         <div
           key={task.id}
           className="rounded-lg border p-4"
